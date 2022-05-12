@@ -1,14 +1,25 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
 public class Alarm : MonoBehaviour
 {
-    [SerializeField] private UnityEvent Activating;
-    [SerializeField] private UnityEvent Deactivating;
-
+    [SerializeField] private float _speedVolumeChange = 0.3f;
+    
     private AudioSource _audio;
+    private float _VolumeMax = 1f;
     private bool _isActive = false;
+    
+    public void TurnOn() 
+    {
+        _audio.Play();
+        _isActive = true;
+    }
+
+    public void TurnOff() 
+    {
+        _audio.Stop();
+        _isActive = false;
+    }
 
     private void Awake()
     {
@@ -19,35 +30,12 @@ public class Alarm : MonoBehaviour
     {
         if (_isActive) 
         {
-            ChangeVolume();
+             ChangeVolume();
         }
     }
 
     private void ChangeVolume() 
     {
-        _audio.volume = Mathf.PingPong(Time.time * 0.3f, 1);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Activating?.Invoke();
-        _isActive = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        float angle = Vector3.Angle(transform.forward, other.transform.position - transform.position);
-        
-        if (angle < 90)
-        {
-            Deactivating?.Invoke();
-            _isActive = false;
-        }
-        else 
-        {
-            Activating?.Invoke();
-            _isActive = true;
-        }
+        _audio.volume = Mathf.PingPong(Time.time * _speedVolumeChange, _VolumeMax);
     }
 }
-
