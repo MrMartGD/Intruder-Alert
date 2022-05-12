@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class CatMove : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     [SerializeField] private float _speedMove;
     [SerializeField] private float _speedRotation;

@@ -3,14 +3,14 @@ using UnityEngine.Events;
 
 public class DogHouse : MonoBehaviour
 {
-    [SerializeField] private UnityEvent Activating;
-    [SerializeField] private UnityEvent Deactivating;
+    [SerializeField] private UnityEvent _activated;
+    [SerializeField] private UnityEvent _deactivated;
 
     private float _angleForCheckAlarm = 90f;
 
     private void OnTriggerEnter(Collider other)
     {
-        Activating?.Invoke();
+        _activated?.Invoke();
     }
 
     private void OnTriggerExit(Collider other)
@@ -19,11 +19,11 @@ public class DogHouse : MonoBehaviour
 
         if (angle < _angleForCheckAlarm)
         {
-            Deactivating?.Invoke();
+            _deactivated?.Invoke();
         }
         else
         {
-            Activating?.Invoke();
+            _activated?.Invoke();
         }
     }
 }
